@@ -32,10 +32,10 @@
 ### {{message_long_name}}
 {{& message_description}}
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
+| Field | Type | Label | OneOf | Description |
+| ----- | ---- | ----- | ----- | ----------- |
 {{#message_fields}}
-| {{field_name}} | [{{field_long_type}}](#{{field_full_type}}) | {{field_label}} | {{#nobr}}{{& field_description}}{{#field_default_value}} Default: {{field_default_value}}{{/field_default_value}}{{/nobr}} |
+| {{field_name}} | [{{field_long_type}}](#{{field_full_type}}) | {{field_label}} | {{field_oneof}} | {{#nobr}}{{& field_description}}{{#field_default_value}} Default: {{field_default_value}}{{/field_default_value}}{{/nobr}} |
 {{/message_fields}}
 
 {{#message_has_extensions}}
@@ -89,8 +89,8 @@
 <a name="scalar-value-types"/>
 ## Scalar Value Types
 
-| .proto Type | Notes | C++ Type | Java Type | Python Type |
+| .proto Type | Notes | C# Type | Java Type | Python Type |
 | ----------- | ----- | -------- | --------- | ----------- |
 {{#scalar_value_types}}
-| <a name="{{scalar_value_proto_type}}"/> {{scalar_value_proto_type}} | {{scalar_value_notes}} | {{scalar_value_cpp_type}} | {{scalar_value_java_type}} | {{scalar_value_python_type}} |
+| <a name="{{scalar_value_proto_type}}"/> {{scalar_value_proto_type}} | {{scalar_value_notes}} | {{scalar_value_csharp_type}} | {{scalar_value_java_type}} | {{scalar_value_python_type}} |
 {{/scalar_value_types}}

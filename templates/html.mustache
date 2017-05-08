@@ -225,7 +225,7 @@
     {{#p}}{{message_description}}{{/p}}
     <table class="field-table">
       <thead>
-        <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+        <tr><td>Field</td><td>Type</td><td>Label</td><td>One Of</td><td>Description</td></tr>
       </thead>
       <tbody>
         {{#message_fields}}
@@ -233,6 +233,7 @@
           <td>{{field_name}}</td>
           <td><a href="#{{field_full_type}}">{{field_long_type}}</a></td>
           <td>{{field_label}}</td>
+          <td>{{field_oneof}}</td>
           <td>{{#p}}{{field_description}}{{#field_default_value}} Default: {{field_default_value}}{{/field_default_value}}{{/p}}</td>
         </tr>
         {{/message_fields}}
@@ -319,14 +320,14 @@
     <h2 id="scalar-value-types">Scalar Value Types</h2>
     <table class="scalar-value-types-table">
       <thead>
-        <tr><td>.proto Type</td><td>Notes</td><td>C++ Type</td><td>Java Type</td><td>Python Type</td></tr>
+        <tr><td>.proto Type</td><td>Notes</td><td>C# Type</td><td>Java Type</td><td>Python Type</td></tr>
       </thead>
       <tbody>
       {{#scalar_value_types}}
         <tr id="{{scalar_value_proto_type}}">
           <td>{{scalar_value_proto_type}}</td>
           <td>{{scalar_value_notes}}</td>
-          <td>{{scalar_value_cpp_type}}</td>
+          <td>{{scalar_value_csharp_type}}</td>
           <td>{{scalar_value_java_type}}</td>
           <td>{{scalar_value_python_type}}</td>
         </tr>

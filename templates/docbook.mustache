@@ -23,6 +23,7 @@
               <entry>Field</entry>
               <entry>Type</entry>
               <entry>Label</entry>
+              <entry>OneOf</entry>
               <entry>Description</entry>
             </row>
           </thead>
@@ -32,6 +33,7 @@
               <entry>{{field_name}}</entry>
               <entry><link linkend="{{field_full_type}}">{{field_long_type}}</link></entry>
               <entry>{{field_label}}</entry>
+              <entry>{{field_oneof}}</entry>
               <entry>{{#para}}{{field_description}}{{#field_default_value}} Default: {{field_default_value}}{{/field_default_value}}{{/para}}</entry>
             </row>
             {{/message_fields}}
@@ -197,7 +199,7 @@
           <row>
             <entry id="{{scalar_value_proto_type}}">{{scalar_value_proto_type}}</entry>
             <entry>{{scalar_value_notes}}</entry>
-            <entry>{{scalar_value_cpp_type}}</entry>
+            <entry>{{scalar_value_csharp_type}}</entry>
             <entry>{{scalar_value_java_type}}</entry>
             <entry>{{scalar_value_python_type}}</entry>
           </row>

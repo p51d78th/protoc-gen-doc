@@ -115,7 +115,7 @@ static inline bool longNameLessThan(const QVariant &v1, const QVariant &v2)
  * The description is taken as the leading comments followed by the trailing
  * comments. If present, a single space is removed from the start of each line.
  * Whitespace is trimmed from the final result before it is returned.
- * 
+ *
  * If the described item should be excluded from the generated documentation,
  * @p exclude is set to true. Otherwise it is set to false.
  */
@@ -165,7 +165,7 @@ static QString descriptionOf(const T *descriptor, bool &excluded)
  *
  * If the file has no description, QString() is returned. If an error occurs,
  * @p error is set to point to an error message and QString() is returned.
- * 
+ *
  * If the described file should be excluded from the generated documentation,
  * @p exclude is set to true. Otherwise it is set to false.
  */
@@ -272,13 +272,28 @@ static QString labelName(gp::FieldDescriptor::Label label)
 {
     switch(label) {
         case gp::FieldDescriptor::LABEL_OPTIONAL:
-            return "optional";
+            return "";
         case gp::FieldDescriptor::LABEL_REPEATED:
             return "repeated";
         case gp::FieldDescriptor::LABEL_REQUIRED:
             return "required";
         default:
             return "<unknown>";
+    }
+}
+
+/**
+ * If not null returns the base one of message name.
+ */
+static QString oneofName(const gp::OneofDescriptor *oneof)
+{
+    if(oneof == NULL)
+    {
+        return "";
+    }
+    else
+    {
+        return QString::fromStdString(oneof->name());
     }
 }
 
@@ -347,6 +362,7 @@ static void addField(const gp::FieldDescriptor *fieldDescriptor, QVariantList *f
     field["field_name"] = QString::fromStdString(fieldDescriptor->name());
     field["field_description"] = description;
     field["field_label"] = labelName(fieldDescriptor->label());
+    field["field_oneof"] = oneofName(fieldDescriptor->containing_oneof());
     field["field_default_value"] = defaultValue(fieldDescriptor);
 
     // Add type information.
@@ -544,48 +560,48 @@ static void addService(const gp::ServiceDescriptor *serviceDescriptor, QVariantL
 {
     bool excluded = false;
     QString description = descriptionOf(serviceDescriptor, excluded);
-    
+
     if (excluded) {
         return;
     }
-    
+
     QVariantHash service;
-    
+
     // Add basic info.
     service["service_name"] = QString::fromStdString(serviceDescriptor->name());
     service["service_full_name"] = QString::fromStdString(serviceDescriptor->full_name());
     service["service_description"] = description;
-    
+
     // Add methods.
     QVariantList methods;
     for (int i = 0; i < serviceDescriptor->method_count(); ++i) {
         const gp::MethodDescriptor *methodDescriptor = serviceDescriptor->method(i);
-        
+
         bool excluded = false;
         QString description = descriptionOf(methodDescriptor, excluded);
-        
+
         if (excluded) {
             continue;
         }
-        
+
         QVariantHash method;
         method["method_name"] = QString::fromStdString(methodDescriptor->name());
         method["method_description"] = description;
-        
+
         // Add type for method input
         method["method_request_type"] = QString::fromStdString(methodDescriptor->input_type()->name());
         method["method_request_full_type"] = QString::fromStdString(methodDescriptor->input_type()->full_name());
         method["method_request_long_type"] = longName(methodDescriptor->input_type());
-        
+
         // Add type for method output
         method["method_response_type"] = QString::fromStdString(methodDescriptor->output_type()->name());
         method["method_response_full_type"] = QString::fromStdString(methodDescriptor->output_type()->full_name());
         method["method_response_long_type"] = longName(methodDescriptor->output_type());
-        
+
         methods.append(method);
     }
     service["service_methods"] = methods;
-    
+
     services->append(service);
 }
 
@@ -638,7 +654,7 @@ static void addFile(const gp::FileDescriptor *fileDescriptor, QVariantList *file
     std::sort(services.begin(), services.end(), &longNameLessThan);
     file["file_has_services"] = !services.isEmpty();
     file["file_services"] = services;
-    
+
     // Add file-level extensions
     for (int i = 0; i < fileDescriptor->extension_count(); ++i) {
         addExtension(fileDescriptor->extension(i), &extensions);
